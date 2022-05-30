@@ -25,22 +25,22 @@
 		</createTable>
 		
 		<createTable tableName="student_course">
-			<column name="student_id" type="uuid">
+			<column name="students_id" type="uuid">
 				<constraints nullable="false"/>	
 			</column>
-			<column name="course_id" type="uuid">
+			<column name="courses_id" type="uuid">
 				<constraints nullable="false"/>	
 			</column>
 		</createTable>
 		<addForeignKeyConstraint constraintName="fk_student_owner" 
 			referencedTableName="student" 
-			baseColumnNames="student_id" 
+			baseColumnNames="students_id" 
 			baseTableName="student_course" 
 			referencedColumnNames="id"
 		/>
 		<addForeignKeyConstraint constraintName="fk_course_inverse" 
 			referencedTableName="course" 
-			baseColumnNames="course_id" 
+			baseColumnNames="courses_id" 
 			baseTableName="student_course" 
 			referencedColumnNames="id"
 		/>
