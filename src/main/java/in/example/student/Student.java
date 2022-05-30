@@ -43,6 +43,6 @@ public class Student {
 	private String gender;
 	
 	@ManyToMany
-	@JoinTable(name = "student_courses")
+	@JoinTable(name = "student_course")
 	private List<Course> courses;
 }
