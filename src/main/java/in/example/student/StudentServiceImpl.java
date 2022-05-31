@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,8 @@ public class StudentServiceImpl implements StudentService {
 			
 			if(foundCourse.isPresent()) {
 				courses.add(foundCourse.get());
+			} else {
+				throw new EntityNotFoundException("Course not found for the given course id : " + cur.getId());
 			}
 		});
 		
