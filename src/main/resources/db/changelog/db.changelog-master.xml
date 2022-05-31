@@ -33,16 +33,46 @@
 				<constraints nullable="false"/>	
 			</column>
 		</createTable>
-		<addForeignKeyConstraint constraintName="fk_student_owner" 
-			referencedTableName="student" 
-			baseColumnNames="students_id" 
-			baseTableName="student_course" 
+		<createTable tableName="author">
+			<column name="id" type="uuid">
+				<constraints primaryKey="true" primaryKeyName="author_id_pk"/>	
+			</column>
+			<column name="name" type="varchar"/>	
+			<column name="gender" type="varchar"/>
+		</createTable>
+		<createTable tableName="book">
+			<column name="id" type="uuid">
+				<constraints primaryKey="true" primaryKeyName="book_id_pk"/>	
+			</column>
+			<column name="name" type="varchar"/>	
+			<column name="publication_house" type="varchar"/>
+			<column name="date_of_publish" type="date"/>
+			<column name="course_id" type="uuid"/>
+		</createTable>
+		<createTable tableName="book_author">
+			<column name="books_id" type="uuid">
+				<constraints nullable="false"/>	
+			</column>
+			<column name="authors_id" type="uuid">
+				<constraints nullable="false"/>	
+			</column>
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_book_owner" 
+			referencedTableName="book" 
+			baseColumnNames="books_id" 
+			baseTableName="book_author" 
 			referencedColumnNames="id"
 		/>
-		<addForeignKeyConstraint constraintName="fk_course_inverse" 
+		<addForeignKeyConstraint constraintName="fk_author_inverse" 
+			referencedTableName="author" 
+			baseColumnNames="authors_id" 
+			baseTableName="book_author" 
+			referencedColumnNames="id"
+		/>
+		<addForeignKeyConstraint constraintName="fk_course_book" 
 			referencedTableName="course" 
-			baseColumnNames="courses_id" 
-			baseTableName="student_course" 
+			baseColumnNames="course_id" 
+			baseTableName="book" 
 			referencedColumnNames="id"
 		/>
 	</changeSet>		

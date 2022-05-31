@@ -1,4 +1,4 @@
-package in.example.course;
+package in.example.author;
 
 import java.util.List;
 import java.util.UUID;
@@ -6,32 +6,27 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import in.example.book.Book;
-import in.example.student.Student;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Setter
 @Getter
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = Course.TABLE_NAME)
-public class Course {
-	
-	public static final String TABLE_NAME = "course";
+@Table(name = Author.TABLE_NAME)
+public class Author {
+	public static final String TABLE_NAME = "author";
 	
 	public static final class COLUMNS {
 		public static final String NAME = "name";
+		public static final String GENDER = "gender";
 	}
 	
 	@Id
@@ -40,10 +35,9 @@ public class Course {
 	@Column(name = COLUMNS.NAME, nullable = false)
 	private String name;
 	
-	@ManyToMany(mappedBy = "courses")
-	private List<Student> students;
+	@Column(name = COLUMNS.GENDER, nullable = false)
+	private String gender;
 	
-	@OneToMany
-	@JoinColumn(name = "courseId")
+	@ManyToMany(mappedBy = "authors")
 	private List<Book> books;
 }
