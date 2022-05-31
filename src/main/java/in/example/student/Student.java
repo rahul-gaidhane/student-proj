@@ -3,13 +3,13 @@ package in.example.student;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import in.example.course.Course;
 import lombok.AllArgsConstructor;
@@ -46,4 +46,7 @@ public class Student {
 	@ManyToMany
 	@JoinTable(name = "student_course")
 	private List<Course> courses;
+	
+	@Version
+	private Integer version;
 }
