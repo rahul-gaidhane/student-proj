@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,9 @@ public class CourseServiceImpl implements CourseService {
 		
 		List<Course> courses = utilityService.findCourses();
 		
-		List<CourseInfo> mappedCourses = courses.stream().map(CourseMapper::toCourseInfo).collect(Collectors.toList());
+		CourseMapper curMapper = Mappers.getMapper(CourseMapper.class);
+		
+		List<CourseInfo> mappedCourses = courses.stream().map(curMapper::toCourseInfo).collect(Collectors.toList());
 		
 		return mappedCourses;
 	}
@@ -39,7 +42,9 @@ public class CourseServiceImpl implements CourseService {
 		
 		List<Book> books = utilityService.findBooksByCourseId(courseId);
 		
-		List<BookInfo> mappedBooks = books.stream().map(BookMapper::toBookInfo).collect(Collectors.toList());
+		BookMapper bookMapper = Mappers.getMapper(BookMapper.class);
+		
+		List<BookInfo> mappedBooks = books.stream().map(bookMapper::toBookInfo).collect(Collectors.toList());
 		
 		return mappedBooks;
 	}

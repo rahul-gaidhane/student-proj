@@ -1,13 +1,9 @@
 package in.example.course;
 
-public class CourseMapper {
+import org.mapstruct.Mapper;
+
+@Mapper
+public interface CourseMapper {
 	
-	public static CourseInfo toCourseInfo(Course course) {
-		CourseInfo courseInfo = new CourseInfo();
-		
-		courseInfo.setId(course.getId());
-		courseInfo.setName(course.getName());
-		
-		return courseInfo;
-	}
+	public CourseInfo toCourseInfo(Course course);
 }

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,9 @@ public class StudentServiceImpl implements StudentService {
 		
 		Page<Student> students = studentRepository.findByCoursesName(request.getCourseName(), pageable);
 		
-		List<StudentInfo> studentsInfo = students.stream().map(StudentMapper::toStudentInfo).collect(Collectors.toList());
+		StudentMapper stuMapper = Mappers.getMapper(StudentMapper.class);
+		
+		List<StudentInfo> studentsInfo = students.stream().map(stuMapper::toStudentInfo).collect(Collectors.toList());
 		
 		return new PageImpl<>(studentsInfo, students.getPageable(), students.getTotalElements());
 	}
