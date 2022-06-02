@@ -21,6 +21,8 @@ import in.example.book.BookInfo;
 import in.example.book.BookMapper;
 import in.example.book.BookRepository;
 import in.example.course.Course;
+import in.example.course.CourseInfo;
+import in.example.course.CourseMapper;
 import in.example.course.CourseRepository;
 
 @Service
@@ -46,13 +48,17 @@ public class UtilityService {
 	@Autowired
 	private AuthorRepository authorRepository;
 	
-	public List<Course> findCourses() {
+	public List<CourseInfo> findCourses() {
 		
 		LOGGER.debug("Service to load all the courses : {}", this.courses);
 		
 		loadCourses();
 		
-		return this.courses;
+		CourseMapper curMapper = Mappers.getMapper(CourseMapper.class);
+		
+		List<CourseInfo> mappedCourses = courses.stream().map(curMapper::toCourseInfo).collect(Collectors.toList());
+		
+		return mappedCourses;
 	}
 
 	private void loadCourses() {

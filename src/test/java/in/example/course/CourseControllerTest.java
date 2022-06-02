@@ -41,5 +41,18 @@ public class CourseControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.length()", is(bookInfos.size())));
 	}
+	
+	@Test
+	public void testFindAllCourses() throws Exception {
+		
+		List<CourseInfo> courseInfos = CourseTestData.getCourseInfos(2);
+		
+		when(courseService.findAll()).thenReturn(courseInfos);
+		
+		mockMvc.perform(get("/api/courses"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.length()", is(courseInfos.size())));
+	}
 
 }

@@ -2,9 +2,7 @@ package in.example.course;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +27,9 @@ public class CourseServiceImpl implements CourseService {
 	public List<CourseInfo> findAll() {
 		LOGGER.debug("Service to find all courses...");
 		
-		List<Course> courses = utilityService.findCourses();
+		List<CourseInfo> courses = utilityService.findCourses();
 		
-		CourseMapper curMapper = Mappers.getMapper(CourseMapper.class);
-		
-		List<CourseInfo> mappedCourses = courses.stream().map(curMapper::toCourseInfo).collect(Collectors.toList());
-		
-		return mappedCourses;
+		return courses;
 	}
 
 	@Override

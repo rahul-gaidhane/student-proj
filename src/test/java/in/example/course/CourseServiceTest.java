@@ -47,4 +47,17 @@ private UtilityService utilityService;
 		assertEquals(bookInfos.size(), books.size());
 	}
 	
+	@Test
+	public void testFindAllCourses() {
+		
+		List<CourseInfo> courses = CourseTestData.getCourseInfos(2);
+		
+		when(utilityService.findCourses()).thenReturn(courses);
+		
+		List<CourseInfo> courseInfos = courseService.findAll();
+		
+		assertNotNull(courseInfos);
+		assertFalse(courseInfos.isEmpty());
+		assertEquals(courses.size(), courseInfos.size());
+	}
 }
