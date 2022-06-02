@@ -21,9 +21,13 @@ public class BookController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(BookController.class);
 	
-	@Autowired
 	private BookService bookService;
 	
+	@Autowired
+	public BookController(BookService bookService) {
+		this.bookService = bookService;
+	}
+
 	@GetMapping("/{bookId}/authors")
 	public ResponseEntity<List<AuthorInfo>> findAuthorsByBook(@PathVariable("bookId") UUID bookId) {
 		LOGGER.debug("Request to find authors by book id : {}", bookId);

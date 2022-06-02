@@ -16,8 +16,12 @@ public class BookServiceImpl implements BookService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceImpl.class);
 	
-	@Autowired
 	private UtilityService  utilityService;
+	
+	@Autowired
+	public BookServiceImpl(UtilityService utilityService) {
+		this.utilityService = utilityService;
+	}
 	
 	@Override
 	public List<AuthorInfo> findAuthorsByBook(UUID bookId) {
