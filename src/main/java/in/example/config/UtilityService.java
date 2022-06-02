@@ -12,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import in.example.author.Author;
+import in.example.author.AuthorInfo;
+import in.example.author.AuthorMapper;
+import in.example.author.AuthorRepository;
 import in.example.book.Book;
 import in.example.book.BookInfo;
 import in.example.book.BookMapper;
@@ -31,25 +35,31 @@ public class UtilityService {
 	private List<BookInfo> bookInfos;
 	
 	@Autowired
+	private List<AuthorInfo> authorInfos;
+	
+	@Autowired
 	private CourseRepository courseRepository;
 	
 	@Autowired
 	private BookRepository bookRepository;
 	
+	@Autowired
+	private AuthorRepository authorRepository;
+	
 	public List<Course> findCourses() {
 		
-		LOGGER.debug("Service to load all the courses...");
+		LOGGER.debug("Service to load all the courses : {}", this.courses);
 		
 		loadCourses();
 		
-		return courses;
+		return this.courses;
 	}
 
 	private void loadCourses() {
 		
-		LOGGER.debug("Service to load courses : {}", courses);
+		LOGGER.debug("Service to load courses : {}", this.courses);
 		
-		if(CollectionUtils.isEmpty(courses)) {
+		if(CollectionUtils.isEmpty(this.courses)) {
 			this.courses = courseRepository.findAll();
 		}
 	}
@@ -67,16 +77,39 @@ public class UtilityService {
 
 	private void loadBooks() {
 		
-		LOGGER.debug("Service to load books : {}", bookInfos);
+		LOGGER.debug("Service to load books : {}", this.bookInfos);
 		
 		List<Book> books = new ArrayList<>();
 		
-		if(CollectionUtils.isEmpty(bookInfos)) {
+		if(CollectionUtils.isEmpty(this.bookInfos)) {
 			books = bookRepository.findAll();
+			
+			BookMapper bookMapper = Mappers.getMapper(BookMapper.class);
+			
+			this.bookInfos = books.stream().map(bookMapper::toBookInfo).collect(Collectors.toList());
 		}
+	}
+	
+	public List<AuthorInfo> findAuthorsByBook(UUID bookId) {
+		LOGGER.debug("Service to find authors by book id : {}", bookId);
 		
-		BookMapper bookMapper = Mappers.getMapper(BookMapper.class);
+		loadAuthors();
 		
-		bookInfos = books.stream().map(bookMapper::toBookInfo).collect(Collectors.toList());
+		List<AuthorInfo> authors = this.authorInfos.stream().filter(author -> author.getBookIds().contains(bookId)).collect(Collectors.toList());
+		
+		return authors;
+	}
+
+	private void loadAuthors() {
+		LOGGER.debug("Service to load authors : {}", this.authorInfos);
+		
+		if(CollectionUtils.isEmpty(this.authorInfos)) {
+			List<Author> authors = authorRepository.findAll();
+			
+			LOGGER.debug("Number of authors found : {}", authors);
+			;
+			this.authorInfos = authors.stream().map(AuthorMapper::toAuthorInfo).collect(Collectors.toList());
+		}
+ 		
 	}
 }

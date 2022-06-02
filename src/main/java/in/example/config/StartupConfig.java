@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import in.example.author.Author;
+import in.example.author.AuthorInfo;
+import in.example.author.AuthorMapper;
+import in.example.author.AuthorRepository;
 import in.example.book.Book;
 import in.example.book.BookInfo;
 import in.example.book.BookMapper;
@@ -27,6 +31,9 @@ public class StartupConfig {
 	
 	@Autowired
 	private BookRepository bookRepository;
+	
+	@Autowired
+	private AuthorRepository authorRepository;
 
 	@Bean
 	public List<Course> courses() {
@@ -47,10 +54,18 @@ public class StartupConfig {
 		
 		List<Book> books = bookRepository.findAll();
 		
-		LOGGER.debug("Number of courses : {}", books.size());
-		
 		BookMapper bookMapper = Mappers.getMapper(BookMapper.class);
 		
 		return books.stream().map(bookMapper::toBookInfo).collect(Collectors.toList());
+	}
+	
+	@Bean
+	public List<AuthorInfo> authors() {
+		
+		LOGGER.debug("Service to get all authors bean...");
+		
+		List<Author> authors = authorRepository.findAll();
+		
+		return authors.stream().map(AuthorMapper::toAuthorInfo).collect(Collectors.toList());
 	}
 }
