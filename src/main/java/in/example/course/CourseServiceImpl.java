@@ -18,9 +18,13 @@ public class CourseServiceImpl implements CourseService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CourseServiceImpl.class);
 	
-	@Autowired
 	private UtilityService utilityService;
 	
+	@Autowired
+	public CourseServiceImpl(UtilityService utilityService) {
+		this.utilityService = utilityService;
+	}
+
 	@Override
 	public List<CourseInfo> findAll() {
 		LOGGER.debug("Service to find all courses...");
