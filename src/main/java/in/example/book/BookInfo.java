@@ -23,4 +23,6 @@ public class BookInfo {
 	private String publicationHouse;
 	
 	private LocalDate dateOfPublish;
+	
+	private UUID courseId;
 }

@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import in.example.book.Book;
 import in.example.book.BookInfo;
-import in.example.book.BookMapper;
 import in.example.config.UtilityService;
 
 @Service
@@ -40,14 +38,8 @@ public class CourseServiceImpl implements CourseService {
 	public List<BookInfo> findBooksByCourse(UUID courseId) {
 		LOGGER.debug("Service to find books by course id : {}", courseId);
 		
-		List<Book> books = utilityService.findBooksByCourseId(courseId);
+		List<BookInfo> books = utilityService.findBooksByCourseId(courseId);
 		
-		BookMapper bookMapper = Mappers.getMapper(BookMapper.class);
-		
-		List<BookInfo> mappedBooks = books.stream().map(bookMapper::toBookInfo).collect(Collectors.toList());
-		
-		return mappedBooks;
+		return books;
 	}
-	
-	
 }
