@@ -17,7 +17,7 @@ public class LoggingAopConfig {
 	        " || within(@org.springframework.web.bind.annotation.RestController *)")
     public void springBeanPointcut() {
 		
-		LOGGER.debug("In logging config before mail...");
+		LOGGER.debug("In logging config before any method of class annotated with Repository, Service or RestController...");
     }
 	
 	
