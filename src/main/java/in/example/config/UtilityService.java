@@ -6,8 +6,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.mapstruct.factory.Mappers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -24,11 +22,11 @@ import in.example.course.Course;
 import in.example.course.CourseInfo;
 import in.example.course.CourseMapper;
 import in.example.course.CourseRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class UtilityService {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(UtilityService.class);
 	
 	@Autowired
 	private List<Course> courses;
@@ -50,7 +48,7 @@ public class UtilityService {
 	
 	public List<CourseInfo> findCourses() {
 		
-		LOGGER.debug("Service to load all the courses : {}", this.courses);
+		log.debug("Service to load all the courses : {}", this.courses);
 		
 		loadCourses();
 		
@@ -63,7 +61,7 @@ public class UtilityService {
 
 	private void loadCourses() {
 		
-		LOGGER.debug("Service to load courses : {}", this.courses);
+		log.debug("Service to load courses : {}", this.courses);
 		
 		if(CollectionUtils.isEmpty(this.courses)) {
 			this.courses = courseRepository.findAll();
@@ -72,7 +70,7 @@ public class UtilityService {
 
 	public List<BookInfo> findBooksByCourseId(UUID courseId) {
 		
-		LOGGER.debug("Service to find books by course id : {}", courseId);
+		log.debug("Service to find books by course id : {}", courseId);
 		
 		loadBooks();
 		
@@ -83,7 +81,7 @@ public class UtilityService {
 
 	private void loadBooks() {
 		
-		LOGGER.debug("Service to load books : {}", this.bookInfos);
+		log.debug("Service to load books : {}", this.bookInfos);
 		
 		List<Book> books = new ArrayList<>();
 		
@@ -97,7 +95,7 @@ public class UtilityService {
 	}
 	
 	public List<AuthorInfo> findAuthorsByBook(UUID bookId) {
-		LOGGER.debug("Service to find authors by book id : {}", bookId);
+		log.debug("Service to find authors by book id : {}", bookId);
 		
 		loadAuthors();
 		
@@ -107,12 +105,12 @@ public class UtilityService {
 	}
 
 	private void loadAuthors() {
-		LOGGER.debug("Service to load authors : {}", this.authorInfos);
+		log.debug("Service to load authors : {}", this.authorInfos);
 		
 		if(CollectionUtils.isEmpty(this.authorInfos)) {
 			List<Author> authors = authorRepository.findAll();
 			
-			LOGGER.debug("Number of authors found : {}", authors);
+			log.debug("Number of authors found : {}", authors);
 			;
 			this.authorInfos = authors.stream().map(AuthorMapper::toAuthorInfo).collect(Collectors.toList());
 		}

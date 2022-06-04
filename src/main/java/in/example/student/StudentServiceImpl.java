@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 
 import org.mapstruct.factory.Mappers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,12 +17,12 @@ import org.springframework.stereotype.Service;
 
 import in.example.course.Course;
 import in.example.course.CourseRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class StudentServiceImpl implements StudentService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StudentServiceImpl.class);
-	
 	@Autowired
 	private StudentRepository studentRepository;
 	
@@ -33,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Override
 	public StudentCreateResponse create(StudentCreateRequest request) {
-		LOGGER.debug("Service to create a student : {}", request);
+		log.debug("Service to create a student : {}", request);
 		
 		Student stu = new Student();
 		stu.setId(UUID.randomUUID());
@@ -61,7 +59,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Page<StudentInfo> findByCourseName(StudentFilterRequest request) {
-		LOGGER.debug("Service to find students by course name : {}", request);
+		log.debug("Service to find students by course name : {}", request);
 		
 		PageRequest pageable = PageRequest.of(request.getPage(), request.getSize());
 		
