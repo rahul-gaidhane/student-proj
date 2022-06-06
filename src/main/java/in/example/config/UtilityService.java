@@ -1,56 +1,30 @@
 package in.example.config;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import in.example.author.Author;
 import in.example.author.AuthorInfo;
-import in.example.author.AuthorMapper;
-import in.example.author.AuthorRepository;
-import in.example.book.Book;
 import in.example.book.BookInfo;
-import in.example.book.BookMapper;
-import in.example.book.BookRepository;
 import in.example.course.Course;
 import in.example.course.CourseInfo;
 import in.example.course.CourseMapper;
-import in.example.course.CourseRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Service
 public class UtilityService {
 	
-	@Autowired
-	private List<Course> courses;
+	public static List<Course> courses;
 	
-	@Autowired
-	private List<BookInfo> bookInfos;
+	public static List<BookInfo> bookInfos;
 	
-	@Autowired
-	private List<AuthorInfo> authorInfos;
+	public static List<AuthorInfo> authorInfos;
 	
-	@Autowired
-	private CourseRepository courseRepository;
-	
-	@Autowired
-	private BookRepository bookRepository;
-	
-	@Autowired
-	private AuthorRepository authorRepository;
-	
-	public List<CourseInfo> findCourses() {
+	public static List<CourseInfo> findCourses() {
 		
-		log.debug("Service to load all the courses : {}", this.courses);
-		
-		loadCourses();
+		log.debug("Service to load all the courses : {}", courses);
 		
 		CourseMapper curMapper = Mappers.getMapper(CourseMapper.class);
 		
@@ -59,47 +33,19 @@ public class UtilityService {
 		return mappedCourses;
 	}
 
-	private void loadCourses() {
-		
-		log.debug("Service to load courses : {}", this.courses);
-		
-		if(CollectionUtils.isEmpty(this.courses)) {
-			this.courses = courseRepository.findAll();
-		}
-	}
-
-	public List<BookInfo> findBooksByCourseId(UUID courseId) {
+	public static List<BookInfo> findBooksByCourseId(UUID courseId) {
 		
 		log.debug("Service to find books by course id : {}", courseId);
-		
-		loadBooks();
 		
 		List<BookInfo> books = bookInfos.stream().filter(book -> book.getCourseId().equals(courseId)).collect(Collectors.toList());
 		
 		return books;
 	}
 
-	private void loadBooks() {
-		
-		log.debug("Service to load books : {}", this.bookInfos);
-		
-		List<Book> books = new ArrayList<>();
-		
-		if(CollectionUtils.isEmpty(this.bookInfos)) {
-			books = bookRepository.findAll();
-			
-			BookMapper bookMapper = Mappers.getMapper(BookMapper.class);
-			
-			this.bookInfos = books.stream().map(bookMapper::toBookInfo).collect(Collectors.toList());
-		}
-	}
-	
-	public List<AuthorInfo> findAuthorsByBook(UUID bookId) {
+	public static List<AuthorInfo> findAuthorsByBook(UUID bookId) {
 		log.debug("Service to find authors by book id : {}", bookId);
 		
-		loadAuthors();
-		
-		List<AuthorInfo> authors = this.authorInfos.stream().filter(author -> {
+		List<AuthorInfo> authors = authorInfos.stream().filter(author -> {
 			List<UUID> bookIds = author.getBooks().stream().map(bk -> bk.getId()).collect(Collectors.toList());
 			
 			return bookIds.contains(bookId);
@@ -107,19 +53,6 @@ public class UtilityService {
 		
 		return authors;
 	}
-
-	private void loadAuthors() {
-		log.debug("Service to load authors : {}", this.authorInfos);
-		
-		if(CollectionUtils.isEmpty(this.authorInfos)) {
-			List<Author> authors = authorRepository.findAll();
-			
-			log.debug("Number of authors found : {}", authors);
-			
-			AuthorMapper authorMapper = Mappers.getMapper(AuthorMapper.class);
-			
-			this.authorInfos = authors.stream().map(authorMapper::toAuthorInfo).collect(Collectors.toList());
-		}
- 		
-	}
+	
+	public static String test(String sr) { return null;}
 }
