@@ -23,11 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-	@Autowired
 	private StudentRepository studentRepository;
 	
-	@Autowired
 	private CourseRepository courseRepository;
+	
+	@Autowired
+	public StudentServiceImpl(StudentRepository studentRepository, CourseRepository courseRepository) {
+		this.courseRepository = courseRepository;
+		this.studentRepository = studentRepository;
+	}
 	
 	@Override
 	public StudentCreateResponse create(StudentCreateRequest request) {
@@ -54,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
 		
 		studentRepository.save(stu);
 		
-		return new StudentCreateResponse();
+		return new StudentCreateResponse(stu.getId(), StudentCreateResponse.MESSAGE);
 	}
 
 	@Override

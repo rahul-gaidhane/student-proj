@@ -7,6 +7,8 @@ import java.util.stream.IntStream;
 
 import com.github.javafaker.Faker;
 
+import in.example.student.StudentSelectedCourses;
+
 public class CourseTestData {
 
 	public static List<CourseInfo> getCourseInfos(int count) {
@@ -23,6 +25,23 @@ public class CourseTestData {
 		});
 		
 		return courseInfo;
+	}
+
+	public static List<StudentSelectedCourses> getCourses(int count) {
+		
+		Faker faker = new Faker();
+		
+		List<StudentSelectedCourses> courses = new ArrayList<>();
+		
+		IntStream.range(0, count).boxed().forEach(i -> {
+			StudentSelectedCourses course = new StudentSelectedCourses();
+			course.setId(UUID.randomUUID());
+			course.setName(faker.book().title());
+			
+			courses.add(course);
+		});
+		
+		return courses;
 	}
 
 }

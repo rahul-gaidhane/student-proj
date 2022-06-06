@@ -15,6 +15,8 @@ import lombok.ToString;
 @ToString
 public class StudentCreateResponse {
 	
+	public static final String MESSAGE = "Student created successfully";
+	
 	private UUID id;
 	
 	private String message;
