@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+
 import com.github.javafaker.Faker;
 
 import in.example.course.CourseTestData;
@@ -52,6 +55,24 @@ public class StudentTestData {
 		});
 		
 		return students;
+	}
+
+	public static Page<StudentInfo> getStudentInfoPage(int i) {
+		List<StudentInfo> students = new ArrayList<>();
+		
+		Faker faker = new Faker();
+		
+		IntStream.range(0, i).boxed().forEach(stu -> {
+			StudentInfo studentInfo = new StudentInfo();
+			studentInfo.setGender("male");
+			studentInfo.setId(UUID.randomUUID());
+			studentInfo.setName(faker.name().fullName());
+			
+			students.add(studentInfo);
+		});
+		
+		
+		return new PageImpl<>(students);
 	}
 
 }
