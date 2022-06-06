@@ -99,7 +99,11 @@ public class UtilityService {
 		
 		loadAuthors();
 		
-		List<AuthorInfo> authors = this.authorInfos.stream().filter(author -> author.getBookIds().contains(bookId)).collect(Collectors.toList());
+		List<AuthorInfo> authors = this.authorInfos.stream().filter(author -> {
+			List<UUID> bookIds = author.getBooks().stream().map(bk -> bk.getId()).collect(Collectors.toList());
+			
+			return bookIds.contains(bookId);
+		}).collect(Collectors.toList());
 		
 		return authors;
 	}
@@ -111,8 +115,10 @@ public class UtilityService {
 			List<Author> authors = authorRepository.findAll();
 			
 			log.debug("Number of authors found : {}", authors);
-			;
-			this.authorInfos = authors.stream().map(AuthorMapper::toAuthorInfo).collect(Collectors.toList());
+			
+			AuthorMapper authorMapper = Mappers.getMapper(AuthorMapper.class);
+			
+			this.authorInfos = authors.stream().map(authorMapper::toAuthorInfo).collect(Collectors.toList());
 		}
  		
 	}

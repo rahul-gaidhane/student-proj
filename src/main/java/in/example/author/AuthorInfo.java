@@ -3,6 +3,7 @@ package in.example.author;
 import java.util.List;
 import java.util.UUID;
 
+import in.example.book.BookInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,5 @@ public class AuthorInfo {
 	
 	private String gender;
 	
-	private List<UUID> bookIds;
+	private List<BookInfo> books;
 }

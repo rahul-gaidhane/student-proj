@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 import com.github.javafaker.Faker;
 
-import in.example.author.AuthorInfo;
+import in.example.book.BookTestData;
 
 public class AuthorTestData {
 
@@ -20,7 +20,7 @@ public class AuthorTestData {
 		IntStream.range(0, count).boxed().forEach(i -> {
 			AuthorInfo info = new AuthorInfo();
 			
-			info.setBookIds(List.of(UUID.randomUUID()));
+			info.setBooks(List.of(BookTestData.getBookInfos(1).get(0)));
 			info.setGender("male");
 			info.setId(UUID.randomUUID());
 			info.setName(faker.name().fullName());

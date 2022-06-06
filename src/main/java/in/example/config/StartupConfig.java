@@ -64,6 +64,8 @@ public class StartupConfig {
 		
 		List<Author> authors = authorRepository.findAll();
 		
-		return authors.stream().map(AuthorMapper::toAuthorInfo).collect(Collectors.toList());
+		AuthorMapper authorMapper = Mappers.getMapper(AuthorMapper.class);
+		
+		return authors.stream().map(authorMapper::toAuthorInfo).collect(Collectors.toList());
 	}
 }
