@@ -13,14 +13,18 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import in.example.book.BookInfo;
 import in.example.book.BookTestData;
+import in.example.security.JwtUtil;
+import in.example.security.MyUserDetailsService;
 
 @WebMvcTest(controllers = CourseController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class CourseControllerTest {
 	
 	@Autowired
@@ -28,6 +32,12 @@ public class CourseControllerTest {
 	
 	@MockBean
 	private CourseService courseService;
+	
+	@MockBean
+	private MyUserDetailsService myUserDetailsService;
+	
+	@MockBean
+	private JwtUtil jwtUtil;
 	
 	@Test
 	public void testFindBooksByCourse() throws Exception {

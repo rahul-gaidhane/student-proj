@@ -13,21 +13,31 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import in.example.author.AuthorInfo;
 import in.example.author.AuthorTestData;
+import in.example.security.JwtUtil;
+import in.example.security.MyUserDetailsService;
 
 @WebMvcTest(controllers = BookController.class)
-public class BookResourceTest {
+@AutoConfigureMockMvc(addFilters = false)
+public class BookControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 	
 	@MockBean
 	private BookService bookService;
+	
+	@MockBean
+	private MyUserDetailsService myUserDetailsService;
+	
+	@MockBean
+	private JwtUtil jwtUtil;
 	
 	@Test
 	public void testFindAuthorsByBook() throws Exception {

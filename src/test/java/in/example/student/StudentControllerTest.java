@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
@@ -19,9 +20,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import in.example.security.JwtUtil;
+import in.example.security.MyUserDetailsService;
 import in.example.util.TestUtil;
 
 @WebMvcTest(controllers = StudentController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class StudentControllerTest {
 	
 	@Autowired
@@ -29,6 +33,12 @@ public class StudentControllerTest {
 	
 	@MockBean
 	private StudentService studentService;
+	
+	@MockBean
+	private MyUserDetailsService myUserDetailsService;
+	
+	@MockBean
+	private JwtUtil jwtUtil;
 	
 	@Test
 	public void testStudentCreation() throws JsonProcessingException, Exception {
@@ -41,7 +51,7 @@ public class StudentControllerTest {
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(TestUtil.writeObjectAsByte(request)))
 			.andDo(print())
-			.andExpect(status().isOk());
+			.andExpect(status().isCreated());
 	}
 	
 	@Test
